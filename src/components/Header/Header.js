@@ -1,13 +1,13 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React from "react";
+import styled from "styled-components/macro";
 
-import { QUERIES, WEIGHTS } from '../../constants';
-import Logo from '../Logo';
-import Icon from '../Icon';
-import UnstyledButton from '../UnstyledButton';
-import SuperHeader from '../SuperHeader';
-import MobileMenu from '../MobileMenu';
-import VisuallyHidden from '../VisuallyHidden';
+import { QUERIES, WEIGHTS } from "../../constants";
+import Logo from "../Logo";
+import Icon from "../Icon";
+import UnstyledButton from "../UnstyledButton";
+import SuperHeader from "../SuperHeader";
+import MobileMenu from "../MobileMenu";
+import VisuallyHidden from "../VisuallyHidden";
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
@@ -20,12 +20,24 @@ const Header = () => {
           <Logo />
         </LogoWrapper>
         <DesktopNav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
+          <NavLinkWrapper>
+            <NavLink href="/sale">Sale</NavLink>
+          </NavLinkWrapper>
+          <NavLinkWrapper>
+            <NavLink href="/new">New&nbsp;Releases</NavLink>
+          </NavLinkWrapper>
+          <NavLinkWrapper>
+            <NavLink href="/men">Men</NavLink>
+          </NavLinkWrapper>
+          <NavLinkWrapper>
+            <NavLink href="/women">Women</NavLink>
+          </NavLinkWrapper>
+          <NavLinkWrapper>
+            <NavLink href="/kids">Kids</NavLink>
+          </NavLinkWrapper>
+          <NavLinkWrapper>
+            <NavLink href="/collections">Collections</NavLink>
+          </NavLinkWrapper>
         </DesktopNav>
         <MobileActions>
           <ShoppingBagButton>
@@ -75,6 +87,7 @@ const DesktopNav = styled.nav`
   display: flex;
   gap: clamp(1rem, 9.2vw - 4.5rem, 3.5rem);
   margin: 0px 48px;
+  overflow: hidden;
 
   @media ${QUERIES.tabletAndSmaller} {
     display: none;
@@ -114,15 +127,36 @@ const Filler = styled.div`
   }
 `;
 
+const NavLinkWrapper = styled.div``;
+
 const NavLink = styled.a`
+  display: inline-block;
+  position: relative;
   font-size: 1.125rem;
   text-transform: uppercase;
   text-decoration: none;
   color: var(--color-gray-900);
   font-weight: ${WEIGHTS.medium};
+  transition: transform 500ms;
 
-  &:first-of-type {
+  ${NavLinkWrapper}:first-of-type & {
     color: var(--color-secondary);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    ${NavLinkWrapper}:hover & {
+      transform: translateY(-100%);
+      transition: transform 200ms;
+    }
+    &:before {
+      transform: translateY(100%);
+    }
+  }
+
+  &:before {
+    content: "${(props) => props.children}" / "";
+    font-weight: ${WEIGHTS.bold};
+    position: absolute;
   }
 `;
 
